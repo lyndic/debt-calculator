@@ -2,13 +2,15 @@
   <div>
     <h1>Debt Calculator</h1>
     <h2>Find out how long it will take you to pay off debt!</h2>
-    <form v-on:submit.prevent="calculate(income, expenses, owed)">
+    <form v-on:submit.prevent="calculate(income, expenses, owed, interest)">
       <label>Monthly Income:</label>
       <input v-model="income" type="number">
       <label>Monthly Expenses:</label>
       <input v-model="expenses" type="number">
       <label>Total Debt Owed:</label>
       <input v-model="owed" type="number">
+      <label>Annual Interest Rate:</label>
+      <input v-model="interest" type="number">
       <button type="submit">Calculate</button>
     </form>
     <div>{{result}}</div>
@@ -24,6 +26,7 @@ export default {
       income: null,
       expenses: null,
       owed: null,
+      interest: null,
       result: ''
     }
   },
@@ -31,11 +34,13 @@ export default {
     clear() {
       this.result = '';
     },
-    calculate(income, expenses, owed) {
+    calculate(income, expenses, owed, interest) {
       let payment = income - expenses;
-      let payoffTime = owed / payment;
+      let adjustedDebt = parseFloat(owed) + parseFloat(owed * (interest / 100))
+      console.log(adjustedDebt)
+      let payoffTime = adjustedDebt / payment;
       let conclusion = 'With the $' + payment + ' left over each month, it would take you ' +
-        payoffTime + ' months to pay off $' + owed;
+        payoffTime + ' months to pay off $' + owed + ' at a ' + interest + '% rate.';
       this.result = `${conclusion}`;
     }
   }
