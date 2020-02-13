@@ -24,6 +24,8 @@
           required/>
       </form>
         <form class="form-group" v-for="(debt, index) in debtForm" v-bind:key="index">
+          <b-button class="remove float-right" pill variant="outline-danger" style="cursor:pointer" @click="removeDebtField(index)">
+            X</b-button>
           <h3>Debt {{ index + 1 }}</h3>
           <input class="form-control mb-3" type="float" placeholder="Debt Owed" v-model="debt.owed">
           <input class="form-control" type="float" placeholder="Annual Interest Rate" v-model="debt.interest">
@@ -69,6 +71,9 @@ export default {
         'interest': ''
       }),
       console.log('It has been pressed!')
+    },
+    removeDebtField(index) {
+      this.debtForm.splice(index, 1)
     }
   }
 }
@@ -81,6 +86,9 @@ export default {
   }
   h2 {
     font-size: 25px;
+  }
+  .remove {
+    font-size: 12px;
   }
   .result {
     text-align: center;
