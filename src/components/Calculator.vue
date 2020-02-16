@@ -4,8 +4,7 @@
       <h1>Debt Calculator</h1>
       <h2>Find out how long it will take you to pay off debt!</h2>
     </b-jumbotron>
-    <form class="mb-4" v-on:submit.prevent="calculatePayoff(income, expenses, ...debtForm)" 
-      @submit="onSubmit">
+    <form class="mb-4" v-on:submit.prevent="calculatePayoff(income, expenses, ...debtForm)">
       <form class="form-group">
         <input
           class="form-control"
@@ -51,24 +50,25 @@ export default {
       debtForm: [{
         'owed': '',
         'interest': '',
-      }],
+      }]
     }
   },
   methods: {
     calculateTotalDebt(...debt) {
-      console.log(debt[1])
       let i = 0
-      let totalDebt = 0
-      while (i <= debt.length) {
-        let interestRate = debt[i].interest
-        let debtOwed = debt[i].owed
-        let adjustedDebt = parseFloat(debtOwed) + parseFloat(debtOwed * (interestRate / 100))
+      let totalDebt = 0.0
+      let interestRate
+      let debtOwed
+      let adjustedDebt
+      for (i; i < debt.length; i++) {
+        interestRate = debt[i].interest
+        debtOwed = debt[i].owed
+        adjustedDebt = parseFloat(debtOwed) + parseFloat(debtOwed * (interestRate / 100))
         console.log(adjustedDebt)
         totalDebt += adjustedDebt
-        i++
         console.log(totalDebt)
-        return totalDebt
       }
+      return totalDebt
     },
     calculatePayoff(income, expenses, ...debt) {
       let totalDebt
@@ -76,7 +76,7 @@ export default {
       console.log(totalDebt)
       let leftoverIncome = income - expenses;
       console.log(leftoverIncome)
-      let payoffTime = totalDebt / leftoverIncome;
+      let payoffTime = (totalDebt / leftoverIncome).toFixed(1);
       let conclusion = 'With the $' + leftoverIncome + ' left over each month, it would take you ' +
         payoffTime + ' months to pay off your total debt of $' + totalDebt + '.';
       this.result = `${conclusion}`;
