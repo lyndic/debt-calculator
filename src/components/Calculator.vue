@@ -4,7 +4,7 @@
       <h1>Debt Calculator</h1>
       <h2>Find out how long it will take you to pay off debt!</h2>
     </b-jumbotron>
-    <form class="mb-4" v-on:submit.prevent="calculateTotalDebt(...debtForm)" 
+    <form class="mb-4" v-on:submit.prevent="calculatePayoff(income, expenses, ...debtForm)" 
       @submit="onSubmit">
       <form class="form-group">
         <input
@@ -66,17 +66,23 @@ export default {
         console.log(adjustedDebt)
         totalDebt += adjustedDebt
         i++
+        console.log(totalDebt)
+        return totalDebt
       }
+// Fixed debt calulation (above ^^^). Now need to figure out how to pass totalDebt to calculate
+// function with income and expenses
     },
-    // calculate(income, expenses, debt) {
-    //   let payment = income - expenses;
-    //   let adjustedDebt = parseFloat(owed) + parseFloat(owed * (interest / 100))
-    //   console.log(adjustedDebt)
-    //   let payoffTime = adjustedDebt / payment;
-    //   let conclusion = 'With the $' + payment + ' left over each month, it would take you ' +
-    //     payoffTime + ' months to pay off $' + owed + ' at a ' + interest + '% rate.';
-    //   this.result = `${conclusion}`;
-    // },
+    calculatePayoff(income, expenses, ...debt) {
+      let totalDebt
+      totalDebt = this.calculateTotalDebt(...debt)
+      console.log(totalDebt)
+      let leftoverIncome = income - expenses;
+      console.log(leftoverIncome)
+      let payoffTime = totalDebt / leftoverIncome;
+      let conclusion = 'With the $' + leftoverIncome + ' left over each month, it would take you ' +
+        payoffTime + ' months to pay off your total debt of $' + totalDebt + '.';
+      this.result = `${conclusion}`;
+    },
     addDebtField() {
       this.debtForm.push({
         'owed': '',
