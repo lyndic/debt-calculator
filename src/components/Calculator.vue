@@ -4,7 +4,7 @@
       <h1>Debt Calculator</h1>
       <h2>Find out how long it will take you to pay off debt!</h2>
     </b-jumbotron>
-    <div class="mb-4" v-on:submit.prevent="calculate(income, expenses, owed, interest)" 
+    <form class="mb-4" v-on:submit.prevent="calculateTotalDebt(...debtForm)" 
       @submit="onSubmit">
       <form class="form-group">
         <input
@@ -17,7 +17,6 @@
       <form class="form-group">
         <input 
           class="form-control"
-          id="input-2"
           v-model="expenses"
           type="float"
           placeholder="Monthly Expenses"
@@ -34,7 +33,7 @@
           Add Debt
         </b-button>
       <b-button type="submit" pill block variant="outline-success">Calculate</b-button>
-    </div>
+    </form>
     <b-jumbotron class="result">{{result}}</b-jumbotron>
   </div>
 </template>
@@ -56,21 +55,33 @@ export default {
     }
   },
   methods: {
-    calculate(income, expenses, owed, interest) {
-      let payment = income - expenses;
-      let adjustedDebt = parseFloat(owed) + parseFloat(owed * (interest / 100))
-      console.log(adjustedDebt)
-      let payoffTime = adjustedDebt / payment;
-      let conclusion = 'With the $' + payment + ' left over each month, it would take you ' +
-        payoffTime + ' months to pay off $' + owed + ' at a ' + interest + '% rate.';
-      this.result = `${conclusion}`;
+    calculateTotalDebt(...debt) {
+      console.log(debt[1])
+      let i = 0
+      let totalDebt = 0
+      while (i <= debt.length) {
+        let interestRate = debt[i].interest
+        let debtOwed = debt[i].owed
+        let adjustedDebt = parseFloat(debtOwed) + parseFloat(debtOwed * (interestRate / 100))
+        console.log(adjustedDebt)
+        totalDebt += adjustedDebt
+        i++
+      }
     },
+    // calculate(income, expenses, debt) {
+    //   let payment = income - expenses;
+    //   let adjustedDebt = parseFloat(owed) + parseFloat(owed * (interest / 100))
+    //   console.log(adjustedDebt)
+    //   let payoffTime = adjustedDebt / payment;
+    //   let conclusion = 'With the $' + payment + ' left over each month, it would take you ' +
+    //     payoffTime + ' months to pay off $' + owed + ' at a ' + interest + '% rate.';
+    //   this.result = `${conclusion}`;
+    // },
     addDebtField() {
       this.debtForm.push({
         'owed': '',
         'interest': ''
-      }),
-      console.log('It has been pressed!')
+      })
     },
     removeDebtField(index) {
       this.debtForm.splice(index, 1)
