@@ -69,8 +69,6 @@ export default {
         console.log(totalDebt)
         return totalDebt
       }
-// Fixed debt calulation (above ^^^). Now need to figure out how to pass totalDebt to calculate
-// function with income and expenses
     },
     calculatePayoff(income, expenses, ...debt) {
       let totalDebt
@@ -96,7 +94,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   h1 {
     font-size: 50px;
