@@ -2,7 +2,7 @@
   <div class="container card mt-4">
     <b-jumbotron class="mt-4">
       <h1>Debt Calculator</h1>
-      <h2>Find out how long it will take you to pay off debt!</h2>
+      <h2>Find out how long it will take to pay off all of your debt!</h2>
     </b-jumbotron>
     <form class="mb-4" v-on:submit.prevent="calculatePayoff(income, expenses, ...debtForm)">
       <form class="form-group">
@@ -77,9 +77,8 @@ export default {
       let leftoverIncome = income - expenses;
       console.log(leftoverIncome)
       let payoffTime = (totalDebt / leftoverIncome).toFixed(1);
-      let conclusion = 'With the $' + leftoverIncome + ' left over each month, it would take you ' +
-        payoffTime + ' months to pay off your total debt of $' + totalDebt + '.';
-      this.result = `${conclusion}`;
+      this.result = `With $${leftoverIncome} left over each month, it would take you 
+        ${payoffTime} months to pay off your total debt of $${totalDebt}.`;
     },
     addDebtField() {
       this.debtForm.push({
