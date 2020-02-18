@@ -26,7 +26,7 @@
             X</b-button>
           <h3>Debt {{ index + 1 }}</h3>
           <input class="form-control mb-3" type="float" placeholder="Debt Owed" v-model="debt.owed">
-          <input class="form-control" type="float" placeholder="Annual Interest Rate" v-model="debt.interest">
+          <input class="form-control" type="float" placeholder="Annual Interest Rate (e.g., 5.4%)" v-model="debt.interest">
         </form>
         <b-button @click="addDebtField()" class="mb-4">
           Add Debt
@@ -61,8 +61,9 @@ export default {
       let debtOwed
       let adjustedDebt
       for (i; i < debt.length; i++) {
-        interestRate = debt[i].interest
         debtOwed = debt[i].owed
+        debtOwed = debtOwed.replace(/,/g,"")
+        interestRate = debt[i].interest
         adjustedDebt = parseFloat(debtOwed) + parseFloat(debtOwed * (interestRate / 100))
         console.log(adjustedDebt)
         totalDebt += adjustedDebt
@@ -74,6 +75,9 @@ export default {
       let totalDebt
       totalDebt = this.calculateTotalDebt(...debt)
       console.log(totalDebt)
+      income = income.replace(/,/g,"")
+      expenses = expenses.replace(/,/g,"")
+      console.log(expenses)
       let leftoverIncome = income - expenses;
       console.log(leftoverIncome)
       let payoffTime = (totalDebt / leftoverIncome).toFixed(1);
