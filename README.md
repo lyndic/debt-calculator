@@ -1,4 +1,4 @@
-# debt-calculator
+# Debt Calculator
 
 ![screenshot of debt-calculator](calculator.png)
 
